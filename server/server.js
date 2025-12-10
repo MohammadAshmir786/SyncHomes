@@ -61,6 +61,31 @@ app.use('/api/contacts', contactRoutes);
 app.use('/api/subscribers', subscriberRoutes);
 app.use('/api/admin', adminRoutes);
 
+// 404 Handler - Must be after all routes
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Route not found',
+    message: `Cannot ${req.method} ${req.originalUrl}`,
+    availableRoutes: [
+      'GET /api/health',
+      'GET /api/projects',
+      'GET /api/clients',
+      'POST /api/contacts',
+      'POST /api/subscribers',
+      'POST /api/admin/login'
+    ]
+  });
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error('Global error handler:', err);
+  res.status(err.status || 500).json({
+    error: err.message || 'Internal server error',
+    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+  });
+});
+
 // Connect to MongoDB
 connectDB();
 
