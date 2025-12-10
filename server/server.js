@@ -1,5 +1,4 @@
 import express from 'express';
-import { connect } from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
@@ -40,6 +39,8 @@ app.use(cors({
     }
   },
   credentials: true, // Allow cookies
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 app.use(cookieParser()); // Parse cookies

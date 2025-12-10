@@ -11,27 +11,30 @@ async function seedAdmin() {
     console.log("✓ Connected to MongoDB");
 
     // Check if admin already exists
-    const existingAdmin = await Admin.findOne({ email: "admin@synchomes.com" });
+    const adminEmail = process.env.ADMIN_EMAIL || "admin@synchomes.com";
+    const adminPassword = process.env.ADMIN_PASSWORD || "Admin@123";
+
+    const existingAdmin = await Admin.findOne({ email: adminEmail });
     if (existingAdmin) {
       console.log("✓ Admin user already exists");
       process.exit(0);
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash("Admin@123", 10);
+    const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
     // Create admin
     const newAdmin = new Admin({
-      email: "admin@synchomes.com",
+      email: adminEmail,
       password: hashedPassword,
       name: "Admin",
     });
 
     await newAdmin.save();
     console.log("✓ Admin user created successfully!");
-    console.log("  Email: admin@synchomes.com");
-    console.log("  Password: Admin@123");
-    console.log("  ⚠️  Change this password after first login!");
+    console.log("  Email:", adminEmail);
+    console.log("  Password: [HIDDEN]");
+    console.log("  ⚠️  Password is set from ADMIN_PASSWORD environment variable");
 
     process.exit(0);
   } catch (error) {
