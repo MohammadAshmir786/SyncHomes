@@ -8,6 +8,7 @@ import Landing from "./pages/Landing";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           }
         />
         <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+        {/* Catch all unknown routes */}
+      <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
