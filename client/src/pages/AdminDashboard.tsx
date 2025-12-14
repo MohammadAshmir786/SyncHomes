@@ -20,6 +20,8 @@ import AnalyticsGraphs from "../components/AdminComponents/AnalyticsGraphs";
 import EditAdminName from "../components/AdminComponents/EditAdminName";
 import Loading from "../components/Loading";
 import { usePageMeta } from "../utils/usePageMeta";
+import { toast } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 interface AdminData {
   id?: string;
@@ -102,11 +104,11 @@ export default function AdminDashboard() {
 
     try {
       await axios.post(`${API}/projects`, formData);
-      alert("Project added successfully!");
+      toast.success("Project added successfully!");
       setProjectImage(null);
     } catch (error: any) {
       console.error(error);
-      alert(
+      toast.error(
         "Failed to add project. " +
           (error?.response?.data?.message ||
             error?.message ||
@@ -131,14 +133,16 @@ export default function AdminDashboard() {
 
     try {
       await axios.post(`${API}/clients`, formData);
-      alert(`Client "${data.name}" added successfully!`);
+      toast.success(`Client "${data.name}" added successfully!`);
       setClientImage(null);
     } catch (err: any) {
       const errorMessage = axios.isAxiosError(err)
         ? err.response?.data?.message || err.message
         : "An unexpected error occurred";
       console.error(err);
-      alert("Failed to add client. " + (errorMessage || "Please try again."));
+      toast.error(
+        "Failed to add client. " + (errorMessage || "Please try again.")
+      );
     }
   };
 
@@ -170,6 +174,18 @@ export default function AdminDashboard() {
   };
 
   const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "Log out?",
+      text: "You will need to sign in again.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, log out",
+    });
+
+    if (!result.isConfirmed) return;
+
     try {
       await axios.post(
         `${
@@ -178,9 +194,13 @@ export default function AdminDashboard() {
         {},
         { withCredentials: true }
       );
+      toast.success("Logged out");
       navigate("/admin/login");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Logout failed:", error);
+      const msg =
+        error?.response?.data?.message || error?.message || "Logout failed";
+      toast.error(msg);
     }
   };
 

@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { Project, ProjectEditForm } from "../../types";
+import { toast } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export default function ProjectManager(props: { API: string }) {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -62,13 +64,35 @@ export default function ProjectManager(props: { API: string }) {
       fetchProjects();
     } catch (error) {
       console.error("Error updating project:", error);
-      alert("Failed to update project. Please try again.");
+      toast.error("Failed to update project. Please try again.");
     }
   };
 
   const handleDelete = async (id: string) => {
-    await axios.delete(`${props.API}/projects/${id}`);
-    fetchProjects();
+    const result = await Swal.fire({
+      title: "Delete project?",
+      text: "This action cannot be undone.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      await axios.delete(`${props.API}/projects/${id}`);
+      toast.success("Project deleted.");
+      fetchProjects();
+    } catch (err: any) {
+      console.error(err);
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Failed to delete project.";
+      toast.error(msg);
+    }
   };
 
   const imageInputRegister = register("imageFile", {

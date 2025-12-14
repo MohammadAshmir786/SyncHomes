@@ -10,10 +10,12 @@ import AdminDashboard from "./pages/AdminDashboard";
 import ResetPasswordForm from "./components/AdminComponents/ResetPasswordForm";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./components/NotFound";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <Router>
+      <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
       <Routes>
         {/* Landing Page */}
         <Route path="/" element={<Landing />} />
