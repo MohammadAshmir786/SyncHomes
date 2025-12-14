@@ -4,17 +4,7 @@ import axios from "axios";
 import { API } from "../Constants";
 import ErrorBox from "../ErrorBox";
 
-interface ResetPasswordFormProps {
-  isModal?: boolean;
-  onSuccess?: () => void;
-  onCancel?: () => void;
-}
-
-export default function ResetPasswordForm({
-  isModal = false,
-  onSuccess,
-  onCancel,
-}: ResetPasswordFormProps) {
+export default function ResetPasswordForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(false);
@@ -94,20 +84,16 @@ export default function ResetPasswordForm({
 
       setSuccess(response.data.message || "Password reset successfully!");
 
-      // Clear form
       setForm({
         oldPassword: "",
         newPassword: "",
         confirmPassword: "",
       });
 
-      // Handle redirect based on context
       setTimeout(() => {
-        if (isModal && onSuccess) {
-          onSuccess();
-        } else if (!isModal && isForgotPassword) {
+        if (isForgotPassword) {
           navigate("/admin/login");
-        } else if (!isModal) {
+        } else {
           navigate("/admin/dashboard");
         }
       }, 2000);
@@ -131,173 +117,12 @@ export default function ResetPasswordForm({
     setError("");
     setSuccess("");
 
-    if (isModal && onCancel) {
-      onCancel();
+    if (isForgotPassword) {
+      navigate("/admin/login");
     } else {
       navigate(-1);
     }
   };
-
-  if (isModal) {
-    // Modal version for settings
-    return (
-      <div className="space-y-4">
-        {error && <ErrorBox title="Error" message={error} className="mb-4" />}
-
-        {success && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-            <p className="text-green-700 text-sm font-semibold">{success}</p>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Current Password */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Current Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword.old ? "text" : "password"}
-                name="oldPassword"
-                value={form.oldPassword}
-                onChange={handleChange}
-                placeholder="Enter current password"
-                disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-              <button
-                type="button"
-                onClick={() =>
-                  setShowPassword((prev) => ({ ...prev, old: !prev.old }))
-                }
-                className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
-                tabIndex={-1}
-              >
-                {showPassword.old ? "🙈" : "👁️"}
-              </button>
-            </div>
-          </div>
-
-          {/* New Password */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword.new ? "text" : "password"}
-                name="newPassword"
-                value={form.newPassword}
-                onChange={handleChange}
-                placeholder="Enter new password"
-                disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-              <button
-                type="button"
-                onClick={() =>
-                  setShowPassword((prev) => ({ ...prev, new: !prev.new }))
-                }
-                className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
-                tabIndex={-1}
-              >
-                {showPassword.new ? "🙈" : "👁️"}
-              </button>
-            </div>
-          </div>
-
-          {/* Confirm Password */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Confirm New Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword.confirm ? "text" : "password"}
-                name="confirmPassword"
-                value={form.confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirm new password"
-                disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
-              />
-              <button
-                type="button"
-                onClick={() =>
-                  setShowPassword((prev) => ({
-                    ...prev,
-                    confirm: !prev.confirm,
-                  }))
-                }
-                className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
-                tabIndex={-1}
-              >
-                {showPassword.confirm ? "🙈" : "👁️"}
-              </button>
-            </div>
-          </div>
-
-          {/* Password Strength Indicator */}
-          {form.newPassword && (
-            <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
-              <p className="font-semibold mb-1">Password requirements:</p>
-              <ul className="space-y-1">
-                <li
-                  className={
-                    form.newPassword.length >= 6
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                >
-                  ✓ At least 6 characters
-                </li>
-                <li
-                  className={
-                    form.newPassword !== form.oldPassword
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                >
-                  ✓ Different from current password
-                </li>
-                <li
-                  className={
-                    form.newPassword === form.confirmPassword &&
-                    form.confirmPassword
-                      ? "text-green-600"
-                      : "text-red-600"
-                  }
-                >
-                  ✓ Passwords match
-                </li>
-              </ul>
-            </div>
-          )}
-
-          {/* Buttons */}
-          <div className="flex gap-3 pt-4">
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-            >
-              {loading ? "Updating..." : "Update Password"}
-            </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              disabled={loading}
-              className="flex-1 px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition-colors disabled:opacity-50 font-semibold"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
-
   // Full page version
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center px-4 py-8">

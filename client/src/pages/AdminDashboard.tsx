@@ -17,7 +17,6 @@ import ContactResponses from "../components/AdminComponents/ContactResponses";
 import NewsletterSubscribers from "../components/AdminComponents/NewsletterSubscribers";
 import DashboardOverview from "../components/AdminComponents/DashboardOverview";
 import AnalyticsGraphs from "../components/AdminComponents/AnalyticsGraphs";
-import ResetPasswordForm from "../components/AdminComponents/ResetPasswordForm";
 import EditAdminName from "../components/AdminComponents/EditAdminName";
 import Loading from "../components/Loading";
 
@@ -44,8 +43,6 @@ export default function AdminDashboard() {
   );
   const [projectImageError, setProjectImageError] = useState<string>("");
   const [clientImageError, setClientImageError] = useState<string>("");
-  const [showResetPasswordModal, setShowResetPasswordModal] =
-    useState<boolean>(false);
   const [showEditNameModal, setShowEditNameModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -483,7 +480,7 @@ export default function AdminDashboard() {
                 </p>
 
                 <button
-                  onClick={() => setShowResetPasswordModal(true)}
+                  onClick={() => navigate("/admin/reset-password")}
                   className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
                 >
                   Change Password
@@ -541,22 +538,6 @@ export default function AdminDashboard() {
                 setShowEditNameModal(false);
               }}
               onCancel={() => setShowEditNameModal(false)}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Modal: Reset Password */}
-      {showResetPasswordModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 my-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Change Password
-            </h2>
-            <ResetPasswordForm
-              isModal={true}
-              onSuccess={() => setShowResetPasswordModal(false)}
-              onCancel={() => setShowResetPasswordModal(false)}
             />
           </div>
         </div>
