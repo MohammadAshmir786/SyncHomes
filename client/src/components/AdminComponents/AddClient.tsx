@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 interface ClientFormInput {
@@ -15,7 +15,6 @@ interface AddClientProps {
   onSubmit: SubmitHandler<ClientFormInput>;
   selectedImageName?: string;
 }
-import React, { useState } from "react";
 
 export default function AddClient({
   onImageSelect,
@@ -120,6 +119,7 @@ export default function AddClient({
           )}
         </div>
 
+        <div>
           <div
             className={`relative flex flex-col items-center justify-center w-full border-2 border-dashed rounded-lg p-4 text-sm text-gray-600 transition-colors cursor-pointer ${
               isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"
