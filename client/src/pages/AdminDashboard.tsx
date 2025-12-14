@@ -7,11 +7,13 @@ import type {
   ClientFormInput,
   Contact,
   Subscriber,
+  Client,
 } from "../types";
 import { API } from "../components/Constants";
 import AddProject from "../components/AdminComponents/AddProject";
 import AddClient from "../components/AdminComponents/AddClient";
 import ProjectManager from "../components/AdminComponents/ProjectManager";
+import ClientManager from "../components/AdminComponents/ClientManager";
 import ImageCropperModal from "../components/AdminComponents/ImageCropperModal";
 import ContactResponses from "../components/AdminComponents/ContactResponses";
 import NewsletterSubscribers from "../components/AdminComponents/NewsletterSubscribers";
@@ -38,6 +40,7 @@ export default function AdminDashboard() {
   const [clientImage, setClientImage] = useState<File | null>(null);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [clients, setClients] = useState<Client[]>([]);
   const [projectCount, setProjectCount] = useState(0);
   const [clientCount, setClientCount] = useState(0);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
@@ -47,6 +50,11 @@ export default function AdminDashboard() {
   const [projectImageError, setProjectImageError] = useState<string>("");
   const [clientImageError, setClientImageError] = useState<string>("");
   const [showEditNameModal, setShowEditNameModal] = useState<boolean>(false);
+  const [showAddProjectModal, setShowAddProjectModal] =
+    useState<boolean>(false);
+  const [showAddClientModal, setShowAddClientModal] = useState<boolean>(false);
+  const [projectImageName, setProjectImageName] = useState<string>("");
+  const [clientImageName, setClientImageName] = useState<string>("");
   const navigate = useNavigate();
 
   usePageMeta({
@@ -75,6 +83,7 @@ export default function AdminDashboard() {
         setAdmin(adminRes.data.admin);
         setContacts(contactsRes.data);
         setSubscribers(subscribersRes.data);
+        setClients(clientsRes.data);
         setProjectCount(projectsRes.data.length);
         setClientCount(clientsRes.data.length);
       } catch (error) {
@@ -87,6 +96,41 @@ export default function AdminDashboard() {
 
     fetchData();
   }, [navigate]);
+
+  const startImageCrop = (file: File, type: "project" | "client") => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setImageToCrop(reader.result);
+        setCroppingType(type);
+      }
+    };
+    reader.readAsDataURL(file);
+
+    if (type === "project") {
+      setProjectImageName(file.name);
+    } else {
+      setClientImageName(file.name);
+    }
+  };
+
+  const closeProjectModal = () => {
+    setShowAddProjectModal(false);
+    setProjectImage(null);
+    setProjectImageName("");
+    setProjectImageError("");
+    setImageToCrop(null);
+    setCroppingType(null);
+  };
+
+  const closeClientModal = () => {
+    setShowAddClientModal(false);
+    setClientImage(null);
+    setClientImageName("");
+    setClientImageError("");
+    setImageToCrop(null);
+    setCroppingType(null);
+  };
 
   const handleProjectSubmit: SubmitHandler<ProjectFormInput> = async (data) => {
     setProjectImageError("");
@@ -106,6 +150,9 @@ export default function AdminDashboard() {
       await axios.post(`${API}/projects`, formData);
       toast.success("Project added successfully!");
       setProjectImage(null);
+      setProjectImageName("");
+      setShowAddProjectModal(false);
+      loadProjectsCount();
     } catch (error: any) {
       console.error(error);
       toast.error(
@@ -135,6 +182,9 @@ export default function AdminDashboard() {
       await axios.post(`${API}/clients`, formData);
       toast.success(`Client "${data.name}" added successfully!`);
       setClientImage(null);
+      setClientImageName("");
+      setShowAddClientModal(false);
+      loadClients();
     } catch (err: any) {
       const errorMessage = axios.isAxiosError(err)
         ? err.response?.data?.message || err.message
@@ -152,22 +202,21 @@ export default function AdminDashboard() {
   ) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (typeof reader.result === "string") {
-          setImageToCrop(reader.result);
-          setCroppingType(type);
-        }
-      };
-      reader.readAsDataURL(file);
+      startImageCrop(file, type);
     }
+  };
+
+  const handleImageDrop = (file: File, type: "project" | "client") => {
+    startImageCrop(file, type);
   };
 
   const handleCropComplete = (croppedImage: File) => {
     if (croppingType === "project") {
       setProjectImage(croppedImage);
+      setProjectImageName(croppedImage.name || projectImageName);
     } else if (croppingType === "client") {
       setClientImage(croppedImage);
+      setClientImageName(croppedImage.name || clientImageName);
     }
     setImageToCrop(null);
     setCroppingType(null);
@@ -201,6 +250,25 @@ export default function AdminDashboard() {
       const msg =
         error?.response?.data?.message || error?.message || "Logout failed";
       toast.error(msg);
+    }
+  };
+
+  const loadClients = async () => {
+    try {
+      const clientsRes = await axios.get(`${API}/clients`);
+      setClients(clientsRes.data);
+      setClientCount(clientsRes.data.length);
+    } catch (err) {
+      console.error("Failed to refresh clients:", err);
+    }
+  };
+
+  const loadProjectsCount = async () => {
+    try {
+      const projectsRes = await axios.get(`${API}/projects`);
+      setProjectCount(projectsRes.data.length);
+    } catch (err) {
+      console.error("Failed to refresh projects:", err);
     }
   };
 
@@ -360,33 +428,53 @@ export default function AdminDashboard() {
 
           {/* Properties Tab */}
           {activeTab === "properties" && (
-            <div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-lg shadow-md p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">
-                    Add New Property
-                  </h2>
-                  <AddProject
-                    onImageSelect={(e) => handleImageSelect(e, "project")}
-                    projectImageError={projectImageError}
-                    onImageErrorClear={() => setProjectImageError("")}
-                    onSubmit={handleProjectSubmit}
-                  />
+            <div className="space-y-6">
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="flex items-start justify-between gap-3 flex-wrap mb-4">
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-800">
+                      Project Manager
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      Manage projects and assets. Use the button to add new
+                      projects.
+                    </p>
+                  </div>
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setShowAddProjectModal(true)}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                    >
+                      + Add Project
+                    </button>
+                  </div>
                 </div>
-                <div className="bg-white rounded-lg shadow-md p-6">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">
-                    Add New Client
-                  </h2>
-                  <AddClient
-                    onImageSelect={(e) => handleImageSelect(e, "client")}
-                    clientImageError={clientImageError}
-                    onImageErrorClear={() => setClientImageError("")}
-                    onSubmit={handleClientSubmit}
-                  />
-                </div>
-              </div>
-              <div className="mt-6">
                 <ProjectManager API={API} />
+              </div>
+
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="flex items-start justify-between gap-3 flex-wrap mb-4">
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-800">
+                      Client Manager
+                    </h2>
+                    <p className="text-sm text-gray-600">
+                      Manage client profiles and testimonials. Add new clients
+                      via the button.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowAddClientModal(true)}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                  >
+                    + Add Client
+                  </button>
+                </div>
+                <ClientManager
+                  clients={clients}
+                  API={API}
+                  onRefresh={loadClients}
+                />
               </div>
             </div>
           )}
@@ -538,6 +626,58 @@ export default function AdminDashboard() {
         }}
         onCropComplete={handleCropComplete}
       />
+
+      {/* Modal: Add Project */}
+      {showAddProjectModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-xl w-full p-6 relative">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Add Project</h2>
+              <button
+                onClick={closeProjectModal}
+                className="text-gray-500 hover:text-gray-700"
+                aria-label="Close add project"
+              >
+                ✕
+              </button>
+            </div>
+            <AddProject
+              onImageSelect={(e) => handleImageSelect(e, "project")}
+              onImageDrop={(file) => handleImageDrop(file, "project")}
+              projectImageError={projectImageError}
+              onImageErrorClear={() => setProjectImageError("")}
+              onSubmit={handleProjectSubmit}
+              selectedImageName={projectImageName}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Add Client */}
+      {showAddClientModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-xl w-full p-6 relative">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-gray-800">Add Client</h2>
+              <button
+                onClick={closeClientModal}
+                className="text-gray-500 hover:text-gray-700"
+                aria-label="Close add client"
+              >
+                ✕
+              </button>
+            </div>
+            <AddClient
+              onImageSelect={(e) => handleImageSelect(e, "client")}
+              onImageDrop={(file) => handleImageDrop(file, "client")}
+              clientImageError={clientImageError}
+              onImageErrorClear={() => setClientImageError("")}
+              onSubmit={handleClientSubmit}
+              selectedImageName={clientImageName}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Modal: Edit Admin Name */}
       {showEditNameModal && (

@@ -57,9 +57,11 @@ export interface ProjectEditForm {
 
 export interface AddProjectProps {
   onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onImageDrop: (file: File) => void;
   projectImageError: string;
   onImageErrorClear: () => void;
   onSubmit: SubmitHandler<ProjectFormInput>;
+  selectedImageName?: string;
 }
 
 export interface btnProps {
