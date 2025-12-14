@@ -473,7 +473,13 @@ export default function ResetPasswordForm({
             {/* Back to Login */}
             <button
               type="button"
-              onClick={() => navigate(isForgotPassword ? "/admin/login" : -1)}
+              onClick={() => {
+                if (isForgotPassword) {
+                  navigate("/admin/login");
+                } else {
+                  navigate(-1);
+                }
+              }}
               className="w-full py-2 text-gray-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
             >
               {isForgotPassword ? "Back to Login" : "Cancel"}
