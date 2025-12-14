@@ -19,6 +19,7 @@ import DashboardOverview from "../components/AdminComponents/DashboardOverview";
 import AnalyticsGraphs from "../components/AdminComponents/AnalyticsGraphs";
 import EditAdminName from "../components/AdminComponents/EditAdminName";
 import Loading from "../components/Loading";
+import { usePageMeta } from "../utils/usePageMeta";
 
 interface AdminData {
   id?: string;
@@ -46,16 +47,10 @@ export default function AdminDashboard() {
   const [showEditNameModal, setShowEditNameModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document.title = "Admin Dashboard | SyncHomes";
-    const metaDescription = document.querySelector("meta[name='description']");
-    if (metaDescription) {
-      metaDescription.setAttribute(
-        "content",
-        "SyncHomes Admin Portal - Dashboard"
-      );
-    }
-  }, []);
+  usePageMeta({
+    title: "Admin Dashboard | SyncHomes",
+    description: "SyncHomes Admin Portal - Dashboard",
+  });
 
   useEffect(() => {
     const fetchData = async () => {

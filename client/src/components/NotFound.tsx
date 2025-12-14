@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePageMeta } from "../utils/usePageMeta";
 
 export default function NotFound() {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+
+  usePageMeta({
+    title: "Page Not Found | SyncHomes",
+    description:
+      "The page you are looking for could not be found on SyncHomes.",
+  });
 
   useEffect(() => {
     setIsVisible(true);

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { API } from "../Constants";
 import ErrorBox from "../ErrorBox";
+import { usePageMeta } from "../../utils/usePageMeta";
 
 export default function ResetPasswordForm() {
   const navigate = useNavigate();
@@ -22,6 +23,15 @@ export default function ResetPasswordForm() {
   });
 
   const isForgotPassword = location.pathname.includes("forgot-password");
+
+  usePageMeta({
+    title: isForgotPassword
+      ? "Forgot Password | SyncHomes"
+      : "Reset Password | SyncHomes",
+    description: isForgotPassword
+      ? "Create a new password for your SyncHomes admin account."
+      : "Update your SyncHomes admin account password to stay secure.",
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

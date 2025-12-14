@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect } from "react";
 import ErrorBox from "../components/ErrorBox";
+import { usePageMeta } from "../utils/usePageMeta";
 
 export default function AdminLogin() {
   const {
@@ -21,13 +21,10 @@ export default function AdminLogin() {
   const email = watch("email");
   const password = watch("password");
 
-  useEffect(() => {
-    document.title = "Admin Login | SyncHomes";
-    const metaDescription = document.querySelector("meta[name='description']");
-    if (metaDescription) {
-      metaDescription.setAttribute("content", "SyncHomes Admin Portal - Login");
-    }
-  }, []);
+  usePageMeta({
+    title: "Admin Login | SyncHomes",
+    description: "SyncHomes Admin Portal - Login",
+  });
 
   const onSubmit = async (data: { email: string; password: string }) => {
     setLoading(true);
