@@ -17,6 +17,8 @@ import ContactResponses from "../components/AdminComponents/ContactResponses";
 import NewsletterSubscribers from "../components/AdminComponents/NewsletterSubscribers";
 import DashboardOverview from "../components/AdminComponents/DashboardOverview";
 import AnalyticsGraphs from "../components/AdminComponents/AnalyticsGraphs";
+import ResetPasswordForm from "../components/AdminComponents/ResetPasswordForm";
+import EditAdminName from "../components/AdminComponents/EditAdminName";
 import Loading from "../components/Loading";
 
 interface AdminData {
@@ -42,14 +44,9 @@ export default function AdminDashboard() {
   );
   const [projectImageError, setProjectImageError] = useState<string>("");
   const [clientImageError, setClientImageError] = useState<string>("");
-  const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
-  const [resetPasswordError, setResetPasswordError] = useState<string>("");
-  const [resetPasswordSuccess, setResetPasswordSuccess] = useState<string>("");
-  const [resetPasswordForm, setResetPasswordForm] = useState({
-    oldPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
+  const [showResetPasswordModal, setShowResetPasswordModal] =
+    useState<boolean>(false);
+  const [showEditNameModal, setShowEditNameModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -192,61 +189,6 @@ export default function AdminDashboard() {
       navigate("/admin/login");
     } catch (error) {
       console.error("Logout failed:", error);
-    }
-  };
-
-  const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setResetPasswordError("");
-    setResetPasswordSuccess("");
-
-    // Validation
-    if (
-      !resetPasswordForm.oldPassword ||
-      !resetPasswordForm.newPassword ||
-      !resetPasswordForm.confirmPassword
-    ) {
-      setResetPasswordError("All fields are required");
-      return;
-    }
-
-    if (resetPasswordForm.newPassword !== resetPasswordForm.confirmPassword) {
-      setResetPasswordError("New passwords do not match");
-      return;
-    }
-
-    if (resetPasswordForm.newPassword.length < 6) {
-      setResetPasswordError("New password must be at least 6 characters");
-      return;
-    }
-
-    setResetPasswordLoading(true);
-
-    try {
-      await axios.post(
-        `${API}/admin/reset-password`,
-        {
-          oldPassword: resetPasswordForm.oldPassword,
-          newPassword: resetPasswordForm.newPassword,
-        },
-        { withCredentials: true }
-      );
-
-      setResetPasswordSuccess("Password reset successfully!");
-      setResetPasswordForm({
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-
-      // Clear success message after 3 seconds
-      setTimeout(() => setResetPasswordSuccess(""), 3000);
-    } catch (error: any) {
-      const errorMessage =
-        error?.response?.data?.error || "Failed to reset password";
-      setResetPasswordError(errorMessage);
-    } finally {
-      setResetPasswordLoading(false);
     }
   };
 
@@ -486,126 +428,88 @@ export default function AdminDashboard() {
 
           {/* Settings Tab */}
           {activeTab === "settings" && (
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-6">Settings</h2>
-
-              {/* Admin Info */}
-              <div className="mb-8 pb-8 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-700 mb-4">
+            <div className="space-y-6">
+              {/* Admin Information Card */}
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-6">
                   Admin Information
-                </h3>
-                <div className="space-y-4">
+                </h2>
+
+                <div className="space-y-4 mb-8">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Email
+                      Email Address
                     </label>
                     <input
                       type="email"
-                      value={admin?.email}
+                      value={admin?.email || ""}
                       disabled
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
                     />
+                    <p className="text-xs text-gray-500 mt-1">
+                      Email cannot be changed
+                    </p>
                   </div>
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Name
+                      Display Name
                     </label>
-                    <input
-                      type="text"
-                      value={admin?.name}
-                      disabled
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
-                    />
+                    <div className="flex items-center gap-3">
+                      <input
+                        type="text"
+                        value={admin?.name || ""}
+                        disabled
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-600 cursor-not-allowed"
+                      />
+                      <button
+                        onClick={() => setShowEditNameModal(true)}
+                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                      >
+                        Edit Name
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Reset Password */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-4">
-                  Reset Password
-                </h3>
+              {/* Security Card */}
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  Security
+                </h2>
+                <p className="text-gray-600 text-sm mb-4">
+                  Manage your account security settings
+                </p>
 
-                {resetPasswordError && (
-                  <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-red-700 text-sm">{resetPasswordError}</p>
-                  </div>
-                )}
-
-                {resetPasswordSuccess && (
-                  <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                    <p className="text-green-700 text-sm">
-                      {resetPasswordSuccess}
-                    </p>
-                  </div>
-                )}
-
-                <form
-                  onSubmit={handleResetPassword}
-                  className="space-y-4 max-w-md"
+                <button
+                  onClick={() => setShowResetPasswordModal(true)}
+                  className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
                 >
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Current Password
-                    </label>
-                    <input
-                      type="password"
-                      value={resetPasswordForm.oldPassword}
-                      onChange={(e) =>
-                        setResetPasswordForm({
-                          ...resetPasswordForm,
-                          oldPassword: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                      placeholder="Enter current password"
-                    />
-                  </div>
+                  Change Password
+                </button>
+              </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      New Password
-                    </label>
-                    <input
-                      type="password"
-                      value={resetPasswordForm.newPassword}
-                      onChange={(e) =>
-                        setResetPasswordForm({
-                          ...resetPasswordForm,
-                          newPassword: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                      placeholder="Enter new password"
-                    />
-                  </div>
+              {/* Account Info Card */}
+              <div className="bg-white rounded-lg shadow-md p-6">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  Account Information
+                </h2>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Confirm New Password
-                    </label>
-                    <input
-                      type="password"
-                      value={resetPasswordForm.confirmPassword}
-                      onChange={(e) =>
-                        setResetPasswordForm({
-                          ...resetPasswordForm,
-                          confirmPassword: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                      placeholder="Confirm new password"
-                    />
+                <div className="space-y-3 text-sm text-gray-600">
+                  <div className="flex justify-between py-2 border-b border-gray-200">
+                    <span className="font-semibold">Account Status:</span>
+                    <span className="text-green-600 font-semibold">Active</span>
                   </div>
-
-                  <button
-                    type="submit"
-                    disabled={resetPasswordLoading}
-                    className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                  >
-                    {resetPasswordLoading ? "Updating..." : "Update Password"}
-                  </button>
-                </form>
+                  <div className="flex justify-between py-2 border-b border-gray-200">
+                    <span className="font-semibold">Role:</span>
+                    <span>Administrator</span>
+                  </div>
+                  <div className="flex justify-between py-2">
+                    <span className="font-semibold">Last Login:</span>
+                    <span>Today</span>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -622,6 +526,41 @@ export default function AdminDashboard() {
         }}
         onCropComplete={handleCropComplete}
       />
+
+      {/* Modal: Edit Admin Name */}
+      {showEditNameModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Edit Admin Name
+            </h2>
+            <EditAdminName
+              currentName={admin?.name || ""}
+              onSuccess={(newName) => {
+                setAdmin((prev) => (prev ? { ...prev, name: newName } : null));
+                setShowEditNameModal(false);
+              }}
+              onCancel={() => setShowEditNameModal(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Reset Password */}
+      {showResetPasswordModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 my-8">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Change Password
+            </h2>
+            <ResetPasswordForm
+              isModal={true}
+              onSuccess={() => setShowResetPasswordModal(false)}
+              onCancel={() => setShowResetPasswordModal(false)}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

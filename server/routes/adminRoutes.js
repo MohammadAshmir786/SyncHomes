@@ -133,4 +133,41 @@ router.post("/reset-password", verifyToken, async (req, res) => {
   }
 });
 
+// 5️⃣ UPDATE ADMIN PROFILE
+router.put("/profile", verifyToken, async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    // Validate input
+    if (!name || !name.trim()) {
+      return res.status(400).json({ error: "Name is required" });
+    }
+
+    if (name.trim().length < 2) {
+      return res
+        .status(400)
+        .json({ error: "Name must be at least 2 characters" });
+    }
+
+    // Get admin from token
+    const admin = await Admin.findById(req.admin.id);
+    if (!admin) {
+      return res.status(404).json({ error: "Admin not found" });
+    }
+
+    // Update name
+    admin.name = name.trim();
+    await admin.save();
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      admin: { id: admin._id, email: admin.email, name: admin.name },
+    });
+  } catch (error) {
+    console.error("Update profile error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;

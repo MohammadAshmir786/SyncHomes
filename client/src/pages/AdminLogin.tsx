@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
 import ErrorBox from "../components/ErrorBox";
@@ -142,6 +142,16 @@ export default function AdminLogin() {
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
+
+            {/* Forgot Password Link */}
+            <div className="text-center">
+              <Link
+                to="/admin/forgot-password"
+                className="text-sm text-blue-600 hover:text-blue-700 font-semibold transition-colors"
+              >
+                Forgot your password?
+              </Link>
+            </div>
           </form>
 
           {/* Footer */}
