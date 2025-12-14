@@ -42,6 +42,14 @@ export default function AdminDashboard() {
   );
   const [projectImageError, setProjectImageError] = useState<string>("");
   const [clientImageError, setClientImageError] = useState<string>("");
+  const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
+  const [resetPasswordError, setResetPasswordError] = useState<string>("");
+  const [resetPasswordSuccess, setResetPasswordSuccess] = useState<string>("");
+  const [resetPasswordForm, setResetPasswordForm] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -184,6 +192,61 @@ export default function AdminDashboard() {
       navigate("/admin/login");
     } catch (error) {
       console.error("Logout failed:", error);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResetPasswordError("");
+    setResetPasswordSuccess("");
+
+    // Validation
+    if (
+      !resetPasswordForm.oldPassword ||
+      !resetPasswordForm.newPassword ||
+      !resetPasswordForm.confirmPassword
+    ) {
+      setResetPasswordError("All fields are required");
+      return;
+    }
+
+    if (resetPasswordForm.newPassword !== resetPasswordForm.confirmPassword) {
+      setResetPasswordError("New passwords do not match");
+      return;
+    }
+
+    if (resetPasswordForm.newPassword.length < 6) {
+      setResetPasswordError("New password must be at least 6 characters");
+      return;
+    }
+
+    setResetPasswordLoading(true);
+
+    try {
+      await axios.post(
+        `${API}/admin/reset-password`,
+        {
+          oldPassword: resetPasswordForm.oldPassword,
+          newPassword: resetPasswordForm.newPassword,
+        },
+        { withCredentials: true }
+      );
+
+      setResetPasswordSuccess("Password reset successfully!");
+      setResetPasswordForm({
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setResetPasswordSuccess(""), 3000);
+    } catch (error: any) {
+      const errorMessage =
+        error?.response?.data?.error || "Failed to reset password";
+      setResetPasswordError(errorMessage);
+    } finally {
+      setResetPasswordLoading(false);
     }
   };
 
@@ -424,30 +487,125 @@ export default function AdminDashboard() {
           {/* Settings Tab */}
           {activeTab === "settings" && (
             <div className="bg-white rounded-lg shadow-md p-6">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Settings</h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    value={admin?.email}
-                    disabled
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
-                  />
+              <h2 className="text-xl font-bold text-gray-800 mb-6">Settings</h2>
+
+              {/* Admin Info */}
+              <div className="mb-8 pb-8 border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">
+                  Admin Information
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      value={admin?.email}
+                      disabled
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      value={admin?.name}
+                      disabled
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    value={admin?.name}
-                    disabled
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
-                  />
-                </div>
+              </div>
+
+              {/* Reset Password */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">
+                  Reset Password
+                </h3>
+
+                {resetPasswordError && (
+                  <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-red-700 text-sm">{resetPasswordError}</p>
+                  </div>
+                )}
+
+                {resetPasswordSuccess && (
+                  <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                    <p className="text-green-700 text-sm">
+                      {resetPasswordSuccess}
+                    </p>
+                  </div>
+                )}
+
+                <form
+                  onSubmit={handleResetPassword}
+                  className="space-y-4 max-w-md"
+                >
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      value={resetPasswordForm.oldPassword}
+                      onChange={(e) =>
+                        setResetPasswordForm({
+                          ...resetPasswordForm,
+                          oldPassword: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      placeholder="Enter current password"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      value={resetPasswordForm.newPassword}
+                      onChange={(e) =>
+                        setResetPasswordForm({
+                          ...resetPasswordForm,
+                          newPassword: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      placeholder="Enter new password"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Confirm New Password
+                    </label>
+                    <input
+                      type="password"
+                      value={resetPasswordForm.confirmPassword}
+                      onChange={(e) =>
+                        setResetPasswordForm({
+                          ...resetPasswordForm,
+                          confirmPassword: e.target.value,
+                        })
+                      }
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+                      placeholder="Confirm new password"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={resetPasswordLoading}
+                    className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                  >
+                    {resetPasswordLoading ? "Updating..." : "Update Password"}
+                  </button>
+                </form>
               </div>
             </div>
           )}

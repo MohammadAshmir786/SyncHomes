@@ -86,4 +86,51 @@ router.post("/logout", (req, res) => {
   }
 });
 
+// 4️⃣ RESET ADMIN PASSWORD
+router.post("/reset-password", verifyToken, async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    // Validate input
+    if (!oldPassword || !newPassword) {
+      return res
+        .status(400)
+        .json({ error: "Old password and new password required" });
+    }
+
+    if (newPassword.length < 6) {
+      return res
+        .status(400)
+        .json({ error: "New password must be at least 6 characters" });
+    }
+
+    // Get admin from token
+    const admin = await Admin.findById(req.admin.id);
+    if (!admin) {
+      return res.status(404).json({ error: "Admin not found" });
+    }
+
+    // Verify old password
+    const isOldPasswordValid = await bcrypt.compare(
+      oldPassword,
+      admin.password
+    );
+    if (!isOldPasswordValid) {
+      return res.status(401).json({ error: "Old password is incorrect" });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update password
+    admin.password = hashedPassword;
+    await admin.save();
+
+    res.json({ success: true, message: "Password reset successful" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 export default router;
