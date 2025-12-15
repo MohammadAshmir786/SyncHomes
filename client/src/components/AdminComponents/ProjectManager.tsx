@@ -58,6 +58,7 @@ export default function ProjectManager(props: { API: string }) {
       await axios.put(`${props.API}/projects/${editingId}`, updatedFormData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+      toast.success("Project updated successfully.");
       setEditingId(null);
       setPreviewUrl("");
       reset();

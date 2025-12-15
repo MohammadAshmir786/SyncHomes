@@ -284,7 +284,11 @@ export default function AdminDashboard() {
           sidebarOpen ? "w-64" : "w-20"
         } bg-gradient-to-b from-blue-600 to-indigo-600 text-white transition-all duration-300 shadow-lg overflow-hidden flex flex-col`}
       >
-        <div className="p-4 flex items-center justify-between h-20 border-b border-blue-500">
+        <div
+          className={`p-4 flex items-center ${
+            sidebarOpen ? "justify-between" : "justify-center text-2xl"
+          } h-20 border-b border-blue-500`}
+        >
           {sidebarOpen && <h2 className="text-xl font-bold">SyncHomes</h2>}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -335,7 +339,7 @@ export default function AdminDashboard() {
       {/* MAIN CONTENT */}
       <div className="flex-1 flex flex-col">
         {/* TOP BAR */}
-        <div className="bg-white shadow-md px-8 py-5 flex justify-between items-center">
+        <div className="bg-white shadow-md px-8 py-5 flex justify-between items-center z-10">
           <h1 className="text-2xl font-bold text-gray-800">
             {activeTab === "overview" && "Dashboard"}
             {activeTab === "properties" && "Properties"}
@@ -623,13 +627,17 @@ export default function AdminDashboard() {
         onCancel={() => {
           setImageToCrop(null);
           setCroppingType(null);
+          setProjectImage(null);
+          setClientImage(null);
+          setProjectImageName("");
+          setClientImageName("");
         }}
         onCropComplete={handleCropComplete}
       />
 
       {/* Modal: Add Project */}
       {showAddProjectModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-20">
           <div className="bg-white rounded-lg shadow-xl max-w-xl w-full p-6 relative">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-gray-800">Add Project</h2>
