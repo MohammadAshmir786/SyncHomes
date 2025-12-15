@@ -1,6 +1,10 @@
-import type { CroppedAreaPixels } from '../types';
+import type { CroppedAreaPixels } from "../types";
 
-export async function getCroppedImg(imageSrc: string, crop: CroppedAreaPixels): Promise<File | null> {
+export async function getCroppedImg(
+  imageSrc: string,
+  crop: CroppedAreaPixels,
+  filename?: string
+): Promise<File | null> {
   const createImage = (url: string): Promise<HTMLImageElement> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -11,8 +15,8 @@ export async function getCroppedImg(imageSrc: string, crop: CroppedAreaPixels): 
   };
 
   const image = await createImage(imageSrc);
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
   if (!ctx) return null;
 
   const scaleX = image.naturalWidth / image.width;
@@ -35,8 +39,9 @@ export async function getCroppedImg(imageSrc: string, crop: CroppedAreaPixels): 
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
       if (!blob) return resolve(null);
-      const file = new File([blob], 'cropped-image.jpg', { type: 'image/jpeg' });
+      const finalFilename = filename || "cropped-image.jpg";
+      const file = new File([blob], finalFilename, { type: "image/jpeg" });
       resolve(file);
-    }, 'image/jpeg');
+    }, "image/jpeg");
   });
 }

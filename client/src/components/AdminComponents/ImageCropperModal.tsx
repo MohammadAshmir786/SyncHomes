@@ -5,6 +5,7 @@ interface ImageCropperModalProps {
   croppingType: "project" | "client" | null;
   onCancel: () => void;
   onCropComplete: (croppedImage: File) => void;
+  filename?: string;
 }
 
 export default function ImageCropperModal({
@@ -12,6 +13,7 @@ export default function ImageCropperModal({
   croppingType,
   onCancel,
   onCropComplete,
+  filename,
 }: ImageCropperModalProps) {
   if (!imageToCrop || !croppingType) {
     document.body.style.overflow = "auto";
@@ -25,6 +27,7 @@ export default function ImageCropperModal({
       image={imageToCrop}
       onCancel={onCancel}
       onCropComplete={onCropComplete}
+      filename={filename}
     />
   );
 }

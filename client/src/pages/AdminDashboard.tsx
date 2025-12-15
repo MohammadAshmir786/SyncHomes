@@ -633,6 +633,9 @@ export default function AdminDashboard() {
           setClientImageName("");
         }}
         onCropComplete={handleCropComplete}
+        filename={
+          croppingType === "project" ? projectImageName : clientImageName
+        }
       />
 
       {/* Modal: Add Project */}

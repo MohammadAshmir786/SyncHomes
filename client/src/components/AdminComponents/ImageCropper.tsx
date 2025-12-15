@@ -9,9 +9,15 @@ interface Props {
   image: string;
   onCancel: () => void;
   onCropComplete: (croppedImage: File) => void;
+  filename?: string;
 }
 
-const ImageCropper: React.FC<Props> = ({ image, onCancel, onCropComplete }) => {
+const ImageCropper: React.FC<Props> = ({
+  image,
+  onCancel,
+  onCropComplete,
+  filename,
+}) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] =
@@ -29,7 +35,11 @@ const ImageCropper: React.FC<Props> = ({ image, onCancel, onCropComplete }) => {
       console.log("Cropping area is not defined!");
       return;
     }
-    const croppedImage = await getCroppedImg(image, croppedAreaPixels);
+    const croppedImage = await getCroppedImg(
+      image,
+      croppedAreaPixels,
+      filename
+    );
     if (croppedImage) onCropComplete(croppedImage);
   };
 
