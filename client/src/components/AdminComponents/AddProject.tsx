@@ -1,6 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import type { ProjectFormInput, AddProjectProps } from "../../types";
+import type { ProjectFormInput, AddProjectProps } from "@/types";
 
 export default function AddProject({
   onImageSelect,

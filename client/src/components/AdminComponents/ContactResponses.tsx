@@ -1,4 +1,4 @@
-import type { Contact } from "../../types";
+import type { Contact } from "@/types";
 
 interface ContactResponsesProps {
   contacts: Contact[];

@@ -16,7 +16,6 @@ export default function Logo({
 
   const sizeValue = sizes[size] || sizes.md;
 
-  // CREATIVE ICON - Premium Home with Sync Pulse
   const CreativeIcon = () => (
     <svg
       viewBox="0 0 100 100"
@@ -31,7 +30,6 @@ export default function Logo({
         </linearGradient>
       </defs>
 
-      {/* Animated Sync Rings */}
       <g>
         <circle
           cx="50"
@@ -52,9 +50,7 @@ export default function Logo({
         />
       </g>
 
-      {/* House Structure */}
       <g>
-        {/* Roof - Triangular */}
         <path
           d="M 50 20 L 75 45 L 25 45 Z"
           fill="url(#homeGradient)"
@@ -63,7 +59,6 @@ export default function Logo({
           strokeLinejoin="round"
         />
 
-        {/* Main Body */}
         <rect
           x="28"
           y="45"
@@ -75,7 +70,6 @@ export default function Logo({
           rx="2"
         />
 
-        {/* Door - Center */}
         <rect
           x="43"
           y="55"
@@ -88,10 +82,8 @@ export default function Logo({
           rx="1"
         />
 
-        {/* Door Handle */}
         <circle cx="56" cy="64" r="1.5" fill="white" opacity="0.8" />
 
-        {/* Left Window */}
         <rect
           x="33"
           y="50"
@@ -103,7 +95,6 @@ export default function Logo({
           strokeWidth="1"
         />
 
-        {/* Right Window */}
         <rect
           x="60"
           y="50"
@@ -116,7 +107,6 @@ export default function Logo({
         />
       </g>
 
-      {/* Sync Indicator Dots */}
       <g>
         <circle
           cx="15"
@@ -139,7 +129,6 @@ export default function Logo({
     </svg>
   );
 
-  // Vertical Layout - Icon with Text Below
   if (layout === "vertical" && variant === "default") {
     return (
       <div className="flex flex-col items-center gap-2 group cursor-pointer">
@@ -157,7 +146,6 @@ export default function Logo({
     );
   }
 
-  // Horizontal Layout - Icon with Text to the Right
   if (layout === "horizontal" && variant === "text-only") {
     return (
       <div className="flex items-center gap-3 group cursor-pointer">
@@ -177,7 +165,6 @@ export default function Logo({
     );
   }
 
-  // Icon Only (Default)
   return (
     <div
       className={`${sizeValue} rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer group`}

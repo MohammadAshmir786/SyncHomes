@@ -71,16 +71,48 @@ npm run dev           # Start on http://localhost:5173
 SyncHomes_Landing_Page/
 ├── client/              # React frontend
 │   ├── src/
-│   │   ├── components/  # Reusable components
-│   │   ├── pages/       # Page components
-│   │   └── utils/       # Utilities
-│   └── .env.example     # Environment template
+│   │   ├── components/            # UI building blocks
+│   │   │   ├── layout/            # Site-wide UI: Navbar, Footer, Loading, Logo, ErrorBox
+│   │   │   ├── sections/          # Landing page sections: Hero, AboutUs, Projects, Clients, ContactForm, Newsletter
+│   │   │   ├── admin/             # Admin-dashboard re-exports for convenience (source in AdminComponents)
+│   │   │   └── AdminComponents/   # Admin-dashboard components (existing)
+│   │   ├── pages/                 # Route-level pages (Landing, AdminDashboard, etc.)
+│   │   ├── utils/                 # Utilities & hooks
+│   │   ├── assets/                # Images, icons, fonts
+│   │   └── types.ts               # Shared TypeScript types
+│   └── .env.example               # Environment template
 │
 ├── server/              # Express backend
 │   ├── controllers/     # Route controllers
 │   ├── models/          # MongoDB models
 │   ├── routes/          # API routes
 │   └── .env.example     # Environment template
+### 🧭 Frontend Import Aliases
+
+To simplify imports and keep structure scalable, the frontend supports the following aliases (existing relative imports continue to work):
+
+```
+
+@/_ -> client/src/_
+@components/_ -> client/src/components/_
+@pages/_ -> client/src/pages/_
+@utils/_ -> client/src/utils/_
+@assets/_ -> client/src/assets/_
+@types -> client/src/types
+
+```
+
+Examples:
+
+```
+
+import { Navbar } from '@components/layout'
+import { Hero, AboutUs } from '@components/sections'
+import { ImageCropper } from '@components/admin'
+import { usePageMeta } from '@utils/usePageMeta'
+
+```
+
 ```
 
 ---

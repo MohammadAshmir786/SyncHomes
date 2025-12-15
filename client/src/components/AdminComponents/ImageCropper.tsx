@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
-import type { CroppedAreaPixels } from "../../types";
-import { getCroppedImg } from "../../utils/cropImage";
+import type { CroppedAreaPixels } from "@/types";
+import { getCroppedImg } from "@/utils/cropImage";
 import Slider from "@mui/material/Slider";
-import bg from "../../assets/transparent-bg.jpg";
+import bg from "@/assets/transparent-bg.jpg";
 
 interface Props {
   image: string;
@@ -44,9 +44,9 @@ const ImageCropper: React.FC<Props> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex flex-col justify-center items-center">
+    <div className="fixed inset-0 bg-black/50 z-50 flex flex-col justify-center items-center p-2 sm:p-4">
       <div
-        className="relative w-[90vw] max-w-lg h-[60vh] shadow p-4"
+        className="relative w-full sm:w-[90vw] max-w-[280px] sm:max-w-md md:max-w-lg h-[50vh] sm:h-[55vh] md:h-[60vh] shadow p-2 sm:p-3 md:p-4"
         style={{ background: `url(${bg})` }}
       >
         <Cropper
@@ -59,8 +59,8 @@ const ImageCropper: React.FC<Props> = ({
           onCropComplete={onCropCompleteHandler}
         />
       </div>
-      <div className="container w-[90vw] max-w-lg bg-black shadow p-4">
-        <div className="mt-4 px-6">
+      <div className="container w-full sm:w-[90vw] max-w-[280px] sm:max-w-md md:max-w-lg bg-black shadow p-3 sm:p-4">
+        <div className="mt-2 sm:mt-3 md:mt-4 px-3 sm:px-4 md:px-6">
           <Slider
             value={zoom}
             min={1}
@@ -69,16 +69,16 @@ const ImageCropper: React.FC<Props> = ({
             onChange={(_, val) => setZoom(val as number)}
           />
         </div>
-        <div className="flex justify-between mt-4 px-6">
+        <div className="flex justify-between gap-2 mt-3 sm:mt-4 px-3 sm:px-4 md:px-6">
           <button
             onClick={onCancel}
-            className="bg-gray-500 text-white px-4 py-2 rounded z-50"
+            className="bg-gray-500 text-white px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 text-xs sm:text-sm md:text-base rounded z-50 hover:bg-gray-600 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleDone}
-            className="bg-blue-600 text-white px-4 py-2 rounded z-50"
+            className="bg-blue-600 text-white px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 text-xs sm:text-sm md:text-base rounded z-50 hover:bg-blue-700 transition-colors"
           >
             Crop & Save
           </button>

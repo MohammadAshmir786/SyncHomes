@@ -8,8 +8,8 @@ import type {
   Contact,
   Subscriber,
   Client,
-} from "../types";
-import { API } from "../components/Constants";
+} from "@types";
+import { API } from "@components/Constants";
 import AddProject from "../components/AdminComponents/AddProject";
 import AddClient from "../components/AdminComponents/AddClient";
 import ProjectManager from "../components/AdminComponents/ProjectManager";
@@ -20,7 +20,7 @@ import NewsletterSubscribers from "../components/AdminComponents/NewsletterSubsc
 import DashboardOverview from "../components/AdminComponents/DashboardOverview";
 import AnalyticsGraphs from "../components/AdminComponents/AnalyticsGraphs";
 import EditAdminName from "../components/AdminComponents/EditAdminName";
-import Loading from "../components/Loading";
+import { Loading } from "@components/layout";
 import { usePageMeta } from "../utils/usePageMeta";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";

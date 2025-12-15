@@ -9,7 +9,7 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null); // null = loading, true = auth, false = not auth
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -19,7 +19,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
             import.meta.env.VITE_API_URL || "http://localhost:5000/api"
           }/admin/me`,
           {
-            withCredentials: true, // Send cookies with request
+            withCredentials: true,
           }
         );
         setIsAuthenticated(response.data.success);

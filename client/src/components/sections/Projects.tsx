@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import type { Project } from "../types";
-import { PLACEHOLDER_IMAGE } from "./Constants";
+import type { Project } from "@types";
+import { PLACEHOLDER_IMAGE } from "@components/Constants";
 
 export default function Projects(props: { API: string }) {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -26,9 +26,7 @@ export default function Projects(props: { API: string }) {
         setProjects(response.data);
       } catch (err) {
         if (axios.isAxiosError(err)) {
-          if (err.name === "CanceledError") {
-            return;
-          }
+          if (err.name === "CanceledError") return;
           if (err.response) {
             setError(err.response.data?.message || "Failed to load projects");
           } else if (err.request) {
@@ -45,10 +43,7 @@ export default function Projects(props: { API: string }) {
     };
 
     fetchProjects();
-
-    return () => {
-      abortController.abort();
-    };
+    return () => abortController.abort();
   }, [props.API]);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -62,44 +57,37 @@ export default function Projects(props: { API: string }) {
   return (
     <section
       id="projects"
-      className="relative min-h-screen flex items-center py-20 overflow-hidden"
+      className="relative min-h-screen flex items-center py-12 sm:py-16 md:py-20 overflow-hidden"
     >
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
 
-      {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 right-0 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute top-40 left-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-20 right-40 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-10 sm:top-20 right-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-20 sm:top-40 left-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-10 sm:-bottom-20 right-20 sm:right-40 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      {/* Content Container */}
-      <div className="relative z-10 container mx-auto px-6">
-        {/* Header */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1920px]">
         <div
-          className={`text-center mb-16 transform transition-all duration-1000 ${
-            isVisible
-              ? "translate-y-0 opacity-100"
-              : "translate-y-10 opacity-0"
+          className={`text-center mb-10 sm:mb-12 md:mb-16 transform transition-all duration-1000 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          <span className="text-blue-600 font-semibold text-sm tracking-widest uppercase">
+          <span className="text-blue-600 font-semibold text-xs sm:text-sm tracking-widest uppercase">
             Our Portfolio
           </span>
-          <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mt-2 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-gray-900 mt-2 leading-tight">
             Showcasing Our
-            <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text ml-3">
+            <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text ml-2 sm:ml-3">
               Best Work
             </span>
           </h2>
-          <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
+          <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl mt-3 sm:mt-4 max-w-2xl mx-auto px-4">
             Explore our collection of innovative projects that demonstrate our
             commitment to excellence and creative problem-solving.
           </p>
         </div>
 
-        {/* Loading State */}
         {loading && (
           <div className="text-center py-16">
             <div className="inline-block">
@@ -109,7 +97,6 @@ export default function Projects(props: { API: string }) {
           </div>
         )}
 
-        {/* Error State */}
         {error && !loading && (
           <div className="text-center py-16">
             <div className="bg-red-50 border border-red-200 rounded-xl p-8 max-w-md mx-auto">
@@ -124,7 +111,6 @@ export default function Projects(props: { API: string }) {
           </div>
         )}
 
-        {/* Empty State */}
         {!loading && !error && projects.length === 0 && (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">📁</div>
@@ -132,21 +118,20 @@ export default function Projects(props: { API: string }) {
           </div>
         )}
 
-        {/* Projects Grid */}
         {!loading && !error && projects.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <div
                 key={project._id}
-                className={`group transform transition-all duration-1000 delay-${index * 100} ${
+                className={`group transform transition-all duration-1000 delay-${
+                  index * 100
+                } ${
                   isVisible
                     ? "translate-y-0 opacity-100"
                     : "translate-y-10 opacity-0"
                 }`}
               >
-                {/* Project Card */}
                 <div className="relative bg-white/80 backdrop-blur-lg border border-white/60 rounded-xl overflow-hidden hover:bg-white hover:shadow-2xl transform hover:scale-105 transition-all duration-300 h-full flex flex-col">
-                  {/* Image Container */}
                   <div className="relative h-56 overflow-hidden">
                     <img
                       src={`${props.API}/${project.image}`}
@@ -154,7 +139,6 @@ export default function Projects(props: { API: string }) {
                       onError={handleImageError}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    {/* Overlay Badge */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                       <span className="text-white text-sm font-semibold">
                         View Project
@@ -162,7 +146,6 @@ export default function Projects(props: { API: string }) {
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
                     <div className="mb-3">
                       <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full">
@@ -173,12 +156,10 @@ export default function Projects(props: { API: string }) {
                     <h3 className="text-xl font-bold text-gray-900 mb-2">
                       {project.name}
                     </h3>
-
                     <p className="text-gray-600 text-sm mb-4 flex-grow">
                       {project.location}
                     </p>
 
-                    {/* CTA Button */}
                     <button className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300">
                       Learn More
                     </button>
@@ -190,31 +171,11 @@ export default function Projects(props: { API: string }) {
         )}
       </div>
 
-      {/* CSS Animations */}
       <style>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-        }
-
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
+        @keyframes blob { 0%,100%{transform:translate(0,0) scale(1);} 33%{transform:translate(30px,-50px) scale(1.1);} 66%{transform:translate(-20px,20px) scale(0.9);} }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay:2s; }
+        .animation-delay-4000 { animation-delay:4s; }
       `}</style>
     </section>
   );

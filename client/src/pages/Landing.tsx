@@ -1,11 +1,12 @@
-import Navbar from "../components/Navbar";
-import Hero from "../components/Hero";
-import Projects from "../components/Projects";
-import Clients from "../components/Clients";
-import ContactForm from "../components/ContactForm";
-import Newsletter from "../components/Newsletter";
-import Footer from "../components/Footer";
-import AboutUs from "../components/AboutUs";
+import { Navbar, Footer } from "@components/layout";
+import {
+  Hero,
+  AboutUs,
+  Projects,
+  Clients,
+  ContactForm,
+  Newsletter,
+} from "@components/sections";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 

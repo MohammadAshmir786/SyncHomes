@@ -1,4 +1,4 @@
-import type { Subscriber } from "../../types";
+import type { Subscriber } from "@/types";
 
 interface NewsletterSubscribersProps {
   subscribers: Subscriber[];

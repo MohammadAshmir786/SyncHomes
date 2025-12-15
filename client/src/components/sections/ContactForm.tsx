@@ -17,20 +17,17 @@ export default function ContactForm(props: { API: string }) {
   }, []);
 
   const submitContact = async () => {
-    // Validate inputs
     if (!contact.name || !contact.email || !contact.phone || !contact.city) {
       setMessage({ type: "error", text: "Please fill in all fields" });
       return;
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(contact.email)) {
       setMessage({ type: "error", text: "Please enter a valid email address" });
       return;
     }
 
-    // Validate phone format
     const phoneRegex = /^[0-9]{10,}$/;
     if (!phoneRegex.test(contact.phone.replace(/\D/g, ""))) {
       setMessage({ type: "error", text: "Please enter a valid phone number" });
@@ -44,25 +41,15 @@ export default function ContactForm(props: { API: string }) {
         type: "success",
         text: response.data.message || "Contact submitted successfully!",
       });
-
-      // Clear form after successful submission
-      setContact({
-        name: "",
-        email: "",
-        phone: "",
-        city: "",
-      });
-
-      // Clear message after 5 seconds
+      setContact({ name: "", email: "", phone: "", city: "" });
       setTimeout(() => setMessage({ type: "", text: "" }), 5000);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
           const status = error.response.status;
-          const message = error.response.data?.message;
-
-          if (status === 400 && message) {
-            setMessage({ type: "error", text: message });
+          const msg = error.response.data?.message;
+          if (status === 400 && msg) {
+            setMessage({ type: "error", text: msg });
           } else if (status === 500) {
             setMessage({
               type: "error",
@@ -71,7 +58,7 @@ export default function ContactForm(props: { API: string }) {
           } else {
             setMessage({
               type: "error",
-              text: message || "Failed to submit contact. Please try again.",
+              text: msg || "Failed to submit contact. Please try again.",
             });
           }
         } else if (error.request) {
@@ -99,24 +86,19 @@ export default function ContactForm(props: { API: string }) {
   return (
     <section
       id="contact"
-      className="relative min-h-screen flex items-center py-20 overflow-hidden"
+      className="relative min-h-screen flex items-center py-12 sm:py-16 md:py-20 overflow-hidden"
     >
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
 
-      {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 right-0 w-96 h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-        <div className="absolute top-40 left-0 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-20 right-40 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-10 sm:top-20 right-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-20 sm:top-40 left-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-10 sm:-bottom-20 right-20 sm:right-40 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      {/* Content Container */}
-      <div className="relative z-10 container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-8">
-            {/* Header */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1920px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center">
+          <div className="space-y-5 sm:space-y-6 md:space-y-8">
             <div
               className={`transform transition-all duration-1000 ${
                 isVisible
@@ -124,20 +106,19 @@ export default function ContactForm(props: { API: string }) {
                   : "-translate-x-20 opacity-0"
               }`}
             >
-              <span className="text-blue-600 font-semibold text-sm tracking-widest uppercase">
+              <span className="text-blue-600 font-semibold text-xs sm:text-sm tracking-widest uppercase">
                 Get in Touch
               </span>
-              <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mt-2 leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-gray-900 mt-2 leading-tight">
                 Let's Work
-                <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text ml-3">
+                <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text ml-2 sm:ml-3">
                   Together
                 </span>
               </h2>
             </div>
 
-            {/* Description */}
             <p
-              className={`text-lg text-gray-700 leading-relaxed max-w-2xl transform transition-all duration-1000 delay-200 ${
+              className={`text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-700 leading-relaxed max-w-2xl transform transition-all duration-1000 delay-200 ${
                 isVisible
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-20 opacity-0"
@@ -147,45 +128,55 @@ export default function ContactForm(props: { API: string }) {
               with us and let's create something amazing together.
             </p>
 
-            {/* Contact Info */}
             <div
-              className={`space-y-4 transform transition-all duration-1000 delay-300 ${
+              className={`space-y-3 sm:space-y-4 transform transition-all duration-1000 delay-300 ${
                 isVisible
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-20 opacity-0"
               }`}
             >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-2xl">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 2xl:w-16 2xl:h-16 rounded-lg bg-blue-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl 2xl:text-4xl">
                   📧
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">Email</p>
-                  <p className="text-gray-600">contact@synchomes.com</p>
+                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                    Email
+                  </p>
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                    contact@synchomes.com
+                  </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center text-2xl">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 2xl:w-16 2xl:h-16 rounded-lg bg-indigo-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl 2xl:text-4xl">
                   📱
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">Phone</p>
-                  <p className="text-gray-600">+1 (555) 123-4567</p>
+                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                    Phone
+                  </p>
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                    +1 (555) 123-4567
+                  </p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center text-2xl">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 2xl:w-16 2xl:h-16 rounded-lg bg-blue-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl 2xl:text-4xl">
                   📍
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900">Location</p>
-                  <p className="text-gray-600">San Francisco, CA</p>
+                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                    Location
+                  </p>
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                    San Francisco, CA
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Content - Form */}
           <div
             className={`transform transition-all duration-1000 delay-500 ${
               isVisible
@@ -194,12 +185,10 @@ export default function ContactForm(props: { API: string }) {
             }`}
           >
             <div className="bg-white/80 backdrop-blur-lg border border-white/60 rounded-2xl p-8 shadow-xl">
-              {/* Form Title */}
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
                 Send us a Message
               </h3>
 
-              {/* Message Alert */}
               {message.text && (
                 <div
                   className={`mb-6 p-4 rounded-lg border ${
@@ -214,9 +203,7 @@ export default function ContactForm(props: { API: string }) {
                 </div>
               )}
 
-              {/* Form Fields */}
               <div className="space-y-4">
-                {/* Name Input */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Full Name
@@ -231,8 +218,6 @@ export default function ContactForm(props: { API: string }) {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   />
                 </div>
-
-                {/* Email Input */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Email Address
@@ -247,8 +232,6 @@ export default function ContactForm(props: { API: string }) {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   />
                 </div>
-
-                {/* Phone Input */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Phone Number
@@ -263,8 +246,6 @@ export default function ContactForm(props: { API: string }) {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   />
                 </div>
-
-                {/* City Input */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     City
@@ -280,7 +261,6 @@ export default function ContactForm(props: { API: string }) {
                   />
                 </div>
 
-                {/* Submit Button */}
                 <button
                   onClick={submitContact}
                   disabled={loading}
@@ -304,46 +284,13 @@ export default function ContactForm(props: { API: string }) {
         </div>
       </div>
 
-      {/* CSS Animations */}
       <style>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-        }
-
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fadeIn 0.3s ease-in-out;
-        }
+        @keyframes blob { 0%,100%{transform:translate(0,0) scale(1);} 33%{transform:translate(30px,-50px) scale(1.1);} 66%{transform:translate(-20px,20px) scale(0.9);} }
+        .animate-blob { animation: blob 7s infinite; }
+        .animation-delay-2000 { animation-delay:2s; }
+        .animation-delay-4000 { animation-delay:4s; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(-10px);} to { opacity:1; transform:translateY(0);} }
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
       `}</style>
     </section>
   );

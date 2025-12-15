@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Button from "../utils/Button";
-import Logo from "./Logo";
+import Button from "@utils/Button";
+import Logo from "@components/layout/Logo";
 
 export default function Navbar() {
   const [activeTab, setActiveTab] = useState("home");
@@ -52,19 +52,19 @@ export default function Navbar() {
           : "bg-gradient-to-b from-white to-transparent"
       }`}
     >
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center gap-3 group cursor-pointer">
+      <nav className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center max-w-[1920px]">
+        <div className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
           <Logo size="md" variant="text-only" layout="horizontal" />
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex items-center gap-8">
+        <ul className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-8">
           {navItems.map((item) => (
             <li key={item.id}>
               <a
                 href={item.href}
                 onClick={() => handleTabClick(item.id)}
-                className={`relative text-sm font-semibold transition-colors duration-300 ${
+                className={`relative text-xs xl:text-sm 2xl:text-base font-semibold transition-colors duration-300 ${
                   activeTab === item.id
                     ? "text-blue-600"
                     : "text-gray-700 hover:text-blue-600"
@@ -72,7 +72,7 @@ export default function Navbar() {
               >
                 {item.label}
                 {activeTab === item.id && (
-                  <span className="absolute left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"></span>
+                  <span className="absolute left-0 w-full h-0.5 2xl:h-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"></span>
                 )}
               </a>
             </li>
@@ -81,7 +81,7 @@ export default function Navbar() {
             <a href="#contact">
               <Button
                 text="CONTACT"
-                className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:shadow-lg transition-shadow"
+                className="px-4 xl:px-6 2xl:px-8 py-2 xl:py-2.5 2xl:py-3 text-xs xl:text-sm 2xl:text-base bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:shadow-lg transition-shadow"
               />
             </a>
           </li>
@@ -89,23 +89,23 @@ export default function Navbar() {
 
         {/* Hamburger Menu */}
         <button
-          className="md:hidden flex flex-col gap-1.5 w-8 h-8 justify-center z-50"
+          className="lg:hidden flex flex-col gap-1 sm:gap-1.5 w-7 sm:w-8 h-7 sm:h-8 justify-center z-50"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
           <span
-            className={`block h-0.5 w-6 bg-blue-800 transition-all duration-300 ${
-              isMenuOpen ? "rotate-45 translate-y-2" : ""
+            className={`block h-0.5 w-5 sm:w-6 bg-blue-800 transition-all duration-300 ${
+              isMenuOpen ? "rotate-45 translate-y-1.5 sm:translate-y-2" : ""
             }`}
           ></span>
           <span
-            className={`block h-0.5 w-6 bg-blue-800 transition-all duration-300 ${
+            className={`block h-0.5 w-5 sm:w-6 bg-blue-800 transition-all duration-300 ${
               isMenuOpen ? "opacity-0" : ""
             }`}
           ></span>
           <span
-            className={`block h-0.5 w-6 bg-blue-800 transition-all duration-300 ${
-              isMenuOpen ? "-rotate-45 -translate-y-2" : ""
+            className={`block h-0.5 w-5 sm:w-6 bg-blue-800 transition-all duration-300 ${
+              isMenuOpen ? "-rotate-45 -translate-y-1.5 sm:-translate-y-2" : ""
             }`}
           ></span>
         </button>
@@ -115,17 +115,17 @@ export default function Navbar() {
       {isMenuOpen && (
         <>
           <div
-            className="fixed inset-0 bg-black/30 md:hidden z-10"
+            className="fixed inset-0 bg-black/30 lg:hidden z-10"
             onClick={() => setIsMenuOpen(false)}
           ></div>
-          <div className="fixed top-16 right-0 w-64 bg-white shadow-2xl md:hidden z-20">
-            <ul className="flex flex-col gap-2 p-6">
+          <div className="fixed top-12 sm:top-14 md:top-16 right-0 w-56 sm:w-64 md:w-72 bg-white shadow-2xl lg:hidden z-20 rounded-bl-xl">
+            <ul className="flex flex-col gap-1 sm:gap-2 p-4 sm:p-5 md:p-6">
               {navItems.map((item) => (
                 <li key={item.id}>
                   <a
                     href={item.href}
                     onClick={() => handleTabClick(item.id)}
-                    className={`block px-4 py-3 rounded-lg transition-colors ${
+                    className={`block px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base rounded-lg transition-colors ${
                       activeTab === item.id
                         ? "bg-blue-100 text-blue-600 font-semibold"
                         : "text-gray-700 hover:bg-gray-100"
@@ -139,7 +139,7 @@ export default function Navbar() {
                 <a href="#contact" onClick={() => setIsMenuOpen(false)}>
                   <Button
                     text="CONTACT"
-                    className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg"
                   />
                 </a>
               </li>

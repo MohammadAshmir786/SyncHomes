@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { API } from "../Constants";
-import ErrorBox from "../ErrorBox";
+import ErrorBox from "@/components/layout/ErrorBox";
 
 interface EditAdminNameProps {
   currentName: string;

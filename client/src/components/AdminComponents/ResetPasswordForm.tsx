@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { API } from "../Constants";
-import ErrorBox from "../ErrorBox";
-import { usePageMeta } from "../../utils/usePageMeta";
+import ErrorBox from "@/components/layout/ErrorBox";
+import { usePageMeta } from "@/utils/usePageMeta";
 
 export default function ResetPasswordForm() {
   const navigate = useNavigate();

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import ErrorBox from "../components/ErrorBox";
+import { ErrorBox } from "@components/layout";
 import { usePageMeta } from "../utils/usePageMeta";
 
 export default function AdminLogin() {

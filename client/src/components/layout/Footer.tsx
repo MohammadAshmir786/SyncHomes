@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Logo from "./Logo";
+import Logo from "@components/layout/Logo";
 
 export default function Footer() {
   const [isVisible, setIsVisible] = useState(false);
@@ -35,14 +35,14 @@ export default function Footer() {
       { label: "Cookie Policy", href: "#" },
       { label: "Disclaimer", href: "#" },
     ],
-  };
+  } as const;
 
   const socialLinks = [
     { icon: "f", label: "Facebook", href: "#" },
     { icon: "𝕏", label: "Twitter", href: "#" },
     { icon: "in", label: "LinkedIn", href: "#" },
     { icon: "📷", label: "Instagram", href: "#" },
-  ];
+  ] as const;
 
   return (
     <footer className="relative bg-gradient-to-b from-gray-900 to-gray-950 text-gray-100 overflow-hidden">
@@ -55,20 +55,22 @@ export default function Footer() {
       {/* Content */}
       <div className="relative z-10">
         {/* Main Footer Content */}
-        <div className="container mx-auto px-6 py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14 md:py-16 max-w-[1920px]">
           {/* Brand & Tagline */}
           <div
-            className={`mb-12 transform transition-all duration-1000 ${
+            className={`mb-8 sm:mb-10 md:mb-12 transform transition-all duration-1000 ${
               isVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-10 opacity-0"
             }`}
           >
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
               <Logo size="lg" variant="default" layout="icon-only" />
-              <h3 className="text-2xl font-bold text-white">SyncHomes</h3>
+              <h3 className="text-xl sm:text-2xl md:text-3xl 2xl:text-4xl font-bold text-white">
+                SyncHomes
+              </h3>
             </div>
-            <p className="text-gray-400 max-w-md">
+            <p className="text-gray-400 text-xs sm:text-sm md:text-base 2xl:text-lg max-w-md">
               Transforming your real estate vision into reality with innovative
               solutions and expert guidance.
             </p>
@@ -76,7 +78,7 @@ export default function Footer() {
 
           {/* Links Grid */}
           <div
-            className={`grid grid-cols-2 md:grid-cols-4 gap-8 mb-12 transform transition-all duration-1000 delay-200 ${
+            className={`grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-7 md:gap-8 mb-8 sm:mb-10 md:mb-12 transform transition-all duration-1000 delay-200 ${
               isVisible
                 ? "translate-y-0 opacity-100"
                 : "translate-y-10 opacity-0"
@@ -84,13 +86,15 @@ export default function Footer() {
           >
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category}>
-                <h4 className="font-semibold text-white mb-4">{category}</h4>
-                <ul className="space-y-2">
+                <h4 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                  {category}
+                </h4>
+                <ul className="space-y-1.5 sm:space-y-2">
                   {links.map((link) => (
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm"
+                        className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-xs sm:text-sm md:text-base 2xl:text-lg"
                       >
                         {link.label}
                       </a>

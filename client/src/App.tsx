@@ -8,7 +8,7 @@ import Landing from "./pages/Landing";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import ResetPasswordForm from "./components/AdminComponents/ResetPasswordForm";
-import ProtectedRoute from "./components/ProtectedRoute";
+import { ProtectedRoute } from "./components/layout";
 import NotFound from "./components/NotFound";
 import { Toaster } from "react-hot-toast";
 

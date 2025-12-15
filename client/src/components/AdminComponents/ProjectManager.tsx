@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { Project, ProjectEditForm } from "../../types";
+import type { Project, ProjectEditForm } from "@/types";
 import { toast } from "react-hot-toast";
 import Swal from "sweetalert2";
 
