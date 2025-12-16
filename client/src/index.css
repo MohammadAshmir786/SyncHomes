@@ -5,7 +5,7 @@ body {
 }
 
 /* Custom container sizes for better responsiveness */
-@media (min-width: 320px) {
+/* @media (min-width: 320px) {
   .container {
     max-width: 320px;
   }
@@ -63,7 +63,7 @@ body {
   .container {
     max-width: 3600px;
   }
-}
+} */
 
 .nav-links {
   font-weight: 600;

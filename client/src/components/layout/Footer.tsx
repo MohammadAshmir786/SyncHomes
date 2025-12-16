@@ -55,7 +55,7 @@ export default function Footer() {
       {/* Content */}
       <div className="relative z-10">
         {/* Main Footer Content */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14 md:py-16 max-w-[1920px]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-14 md:py-16">
           {/* Brand & Tagline */}
           <div
             className={`mb-8 sm:mb-10 md:mb-12 transform transition-all duration-1000 ${
@@ -66,11 +66,11 @@ export default function Footer() {
           >
             <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
               <Logo size="lg" variant="default" layout="icon-only" />
-              <h3 className="text-xl sm:text-2xl md:text-3xl 2xl:text-4xl font-bold text-white">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
                 SyncHomes
               </h3>
             </div>
-            <p className="text-gray-400 text-xs sm:text-sm md:text-base 2xl:text-lg max-w-md">
+            <p className="text-gray-400 text-xs sm:text-sm md:text-base max-w-md">
               Transforming your real estate vision into reality with innovative
               solutions and expert guidance.
             </p>
@@ -86,7 +86,7 @@ export default function Footer() {
           >
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category}>
-                <h4 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                <h4 className="font-semibold text-white mb-3 sm:mb-4 text-sm sm:text-base md:text-lg">
                   {category}
                 </h4>
                 <ul className="space-y-1.5 sm:space-y-2">
@@ -94,7 +94,7 @@ export default function Footer() {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-xs sm:text-sm md:text-base 2xl:text-lg"
+                        className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-xs sm:text-sm md:text-base"
                       >
                         {link.label}
                       </a>

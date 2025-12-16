@@ -88,17 +88,22 @@ export default function ContactForm(props: { API: string }) {
       id="contact"
       className="relative min-h-screen flex items-center py-12 sm:py-16 md:py-20 overflow-hidden"
     >
+      {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
 
+      {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 sm:top-20 right-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob"></div>
         <div className="absolute top-20 sm:top-40 left-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-10 sm:-bottom-20 right-20 sm:right-40 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1920px]">
+      {/* Content Container */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center">
+          {/* Left Content */}
           <div className="space-y-5 sm:space-y-6 md:space-y-8">
+            {/* Header */}
             <div
               className={`transform transition-all duration-1000 ${
                 isVisible
@@ -109,7 +114,7 @@ export default function ContactForm(props: { API: string }) {
               <span className="text-blue-600 font-semibold text-xs sm:text-sm tracking-widest uppercase">
                 Get in Touch
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-gray-900 mt-2 leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mt-2 leading-tight">
                 Let's Work
                 <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text ml-2 sm:ml-3">
                   Together
@@ -118,7 +123,7 @@ export default function ContactForm(props: { API: string }) {
             </div>
 
             <p
-              className={`text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-700 leading-relaxed max-w-2xl transform transition-all duration-1000 delay-200 ${
+              className={`text-sm sm:text-base md:text-lg  text-gray-700 leading-relaxed max-w-2xl transform transition-all duration-1000 delay-200 ${
                 isVisible
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-20 opacity-0"
@@ -136,40 +141,40 @@ export default function ContactForm(props: { API: string }) {
               }`}
             >
               <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 2xl:w-16 2xl:h-16 rounded-lg bg-blue-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl 2xl:text-4xl">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg bg-blue-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl">
                   📧
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg">
                     Email
                   </p>
-                  <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base">
                     contact@synchomes.com
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 2xl:w-16 2xl:h-16 rounded-lg bg-indigo-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl 2xl:text-4xl">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg bg-indigo-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl">
                   📱
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg">
                     Phone
                   </p>
-                  <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base">
                     +1 (555) 123-4567
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 2xl:w-16 2xl:h-16 rounded-lg bg-blue-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl 2xl:text-4xl">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg bg-blue-100 flex items-center justify-center text-xl sm:text-2xl md:text-3xl">
                   📍
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg 2xl:text-xl">
+                  <p className="font-semibold text-gray-900 text-sm sm:text-base md:text-lg">
                     Location
                   </p>
-                  <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                  <p className="text-gray-600 text-xs sm:text-sm md:text-base">
                     San Francisco, CA
                   </p>
                 </div>

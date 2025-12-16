@@ -52,19 +52,19 @@ export default function Navbar() {
           : "bg-gradient-to-b from-white to-transparent"
       }`}
     >
-      <nav className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center max-w-[1920px]">
+      <nav className="container mx-auto px-3 sm:px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
         <div className="flex items-center gap-2 sm:gap-3 group cursor-pointer">
           <Logo size="md" variant="text-only" layout="horizontal" />
         </div>
 
         {/* Desktop Menu */}
-        <ul className="hidden lg:flex items-center gap-4 xl:gap-6 2xl:gap-8">
+        <ul className="hidden lg:flex items-center gap-4 xl:gap-6">
           {navItems.map((item) => (
             <li key={item.id}>
               <a
                 href={item.href}
                 onClick={() => handleTabClick(item.id)}
-                className={`relative text-xs xl:text-sm 2xl:text-base font-semibold transition-colors duration-300 ${
+                className={`relative text-xs xl:text-sm font-semibold transition-colors duration-300 ${
                   activeTab === item.id
                     ? "text-blue-600"
                     : "text-gray-700 hover:text-blue-600"
@@ -72,7 +72,7 @@ export default function Navbar() {
               >
                 {item.label}
                 {activeTab === item.id && (
-                  <span className="absolute left-0 w-full h-0.5 2xl:h-1 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"></span>
+                  <span className="absolute left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full"></span>
                 )}
               </a>
             </li>
@@ -81,7 +81,7 @@ export default function Navbar() {
             <a href="#contact">
               <Button
                 text="CONTACT"
-                className="px-4 xl:px-6 2xl:px-8 py-2 xl:py-2.5 2xl:py-3 text-xs xl:text-sm 2xl:text-base bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:shadow-lg transition-shadow"
+                className="px-4 xl:px-6 py-2 xl:py-2.5 text-xs xl:text-sm bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:shadow-lg transition-shadow"
               />
             </a>
           </li>

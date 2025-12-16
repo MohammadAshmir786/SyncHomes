@@ -35,17 +35,22 @@ export default function AboutUs() {
       id="about"
       className="relative min-h-screen flex items-center py-12 sm:py-16 md:py-20 overflow-hidden"
     >
+      {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-indigo-50"></div>
 
+      {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 sm:top-20 right-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob"></div>
         <div className="absolute top-20 sm:top-40 left-0 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
         <div className="absolute -bottom-10 sm:-bottom-20 right-20 sm:right-40 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1920px]">
+      {/* Content Container */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center">
+          {/* Left Content */}
           <div className="space-y-5 sm:space-y-6 md:space-y-8">
+            {/* Header */}
             <div
               className={`transform transition-all duration-1000 ${
                 isVisible
@@ -56,7 +61,7 @@ export default function AboutUs() {
               <span className="text-blue-600 font-semibold text-xs sm:text-sm tracking-widest uppercase">
                 About Us
               </span>
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-gray-900 mt-2 leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-gray-900 mt-2 leading-tight">
                 Transforming Visions into
                 <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text ml-2 sm:ml-3">
                   Reality
@@ -64,8 +69,9 @@ export default function AboutUs() {
               </h2>
             </div>
 
+            {/* Description */}
             <p
-              className={`text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl text-gray-700 leading-relaxed max-w-2xl transform transition-all duration-1000 delay-200 ${
+              className={`text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed max-w-2xl transform transition-all duration-1000 delay-200 ${
                 isVisible
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-20 opacity-0"
@@ -77,6 +83,7 @@ export default function AboutUs() {
               user-centric design.
             </p>
 
+            {/* Stats */}
             <div
               className={`grid grid-cols-3 gap-3 sm:gap-4 md:gap-6 transform transition-all duration-1000 delay-300 ${
                 isVisible
@@ -85,31 +92,32 @@ export default function AboutUs() {
               }`}
             >
               <div className="space-y-1 sm:space-y-2">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   500+
                 </div>
-                <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                <p className="text-gray-600 text-xs sm:text-sm md:text-base">
                   Projects Delivered
                 </p>
               </div>
               <div className="space-y-1 sm:space-y-2">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   98%
                 </div>
-                <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                <p className="text-gray-600 text-xs sm:text-sm md:text-base">
                   Client Satisfaction
                 </p>
               </div>
               <div className="space-y-1 sm:space-y-2">
-                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                   15+
                 </div>
-                <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg">
+                <p className="text-gray-600 text-xs sm:text-sm md:text-base">
                   Years Experience
                 </p>
               </div>
             </div>
 
+            {/* CTA Button */}
             <div
               className={`transform transition-all duration-1000 delay-500 ${
                 isVisible
@@ -119,13 +127,14 @@ export default function AboutUs() {
             >
               <a
                 href="#contact"
-                className="inline-block px-6 sm:px-8 md:px-10 2xl:px-12 py-3 sm:py-4 2xl:py-5 text-sm sm:text-base md:text-lg 2xl:text-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-2xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
+                className="inline-block px-4 sm:px-6 md:px-8 py-3 sm:py-4 text-sm sm:text-base md:text-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-2xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
               >
                 Get In Touch
               </a>
             </div>
           </div>
 
+          {/* Right Content - Services Cards */}
           <div
             className={`transform transition-all duration-1000 delay-700 ${
               isVisible
@@ -157,6 +166,7 @@ export default function AboutUs() {
               ))}
             </div>
 
+            {/* Decorative Elements */}
             <div className="relative mt-8">
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-300/20 rounded-full blur-3xl"></div>
               <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-300/20 rounded-full blur-3xl"></div>
@@ -164,7 +174,8 @@ export default function AboutUs() {
           </div>
         </div>
       </div>
-
+      
+      {/* CSS Animations */}
       <style>{`
         @keyframes blob { 0%,100%{transform:translate(0,0) scale(1);} 33%{transform:translate(30px,-50px) scale(1.1);} 66%{transform:translate(-20px,20px) scale(0.9);} }
         .animate-blob { animation: blob 7s infinite; }

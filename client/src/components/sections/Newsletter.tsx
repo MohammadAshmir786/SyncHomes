@@ -78,7 +78,7 @@ export default function Newsletter(props: { API: string }) {
         <div className="absolute -bottom-10 sm:-bottom-20 left-20 sm:left-40 w-48 sm:w-72 md:w-96 h-48 sm:h-72 md:h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-2xl md:blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-[1920px]">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className={`text-center mb-10 sm:mb-12 md:mb-16 transform transition-all duration-1000 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
@@ -87,13 +87,13 @@ export default function Newsletter(props: { API: string }) {
           <span className="text-blue-600 font-semibold text-xs sm:text-sm tracking-widest uppercase">
             Stay Updated
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold text-gray-900 mt-2 leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mt-2 leading-tight">
             Subscribe to Our
             <span className="text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text ml-2 sm:ml-3">
               Newsletter
             </span>
           </h2>
-          <p className="text-gray-600 text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-2xl mt-3 sm:mt-4 max-w-2xl mx-auto px-4">
+          <p className="text-gray-600 text-sm sm:text-base md:text-lg  mt-3 sm:mt-4 max-w-2xl mx-auto px-4">
             Get exclusive listings, market insights, investment tips, and expert
             advice delivered directly to your inbox.
           </p>
@@ -126,12 +126,12 @@ export default function Newsletter(props: { API: string }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 onKeyPress={(e) => e.key === "Enter" && submitNewsletter()}
-                className="flex-1 px-3 sm:px-4 md:px-5 2xl:px-6 py-2 sm:py-3 md:py-4 2xl:py-5 text-sm sm:text-base md:text-lg 2xl:text-xl border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                className="flex-1 px-3 sm:px-4 md:px-5 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
               />
               <button
                 onClick={submitNewsletter}
                 disabled={loading}
-                className="px-4 sm:px-6 md:px-8 2xl:px-10 py-2 sm:py-3 md:py-4 2xl:py-5 text-sm sm:text-base md:text-lg 2xl:text-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex items-center justify-center gap-2"
+                className="px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-xl hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -163,13 +163,13 @@ export default function Newsletter(props: { API: string }) {
               className="group bg-white/80 backdrop-blur-lg border border-white/60 rounded-xl p-4 sm:p-5 md:p-6 hover:bg-white hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               style={{ transitionDelay: `${index * 50}ms` }}
             >
-              <div className="text-2xl sm:text-3xl md:text-4xl 2xl:text-5xl mb-3 sm:mb-4 transform group-hover:scale-125 transition-transform duration-300">
+              <div className="text-2xl sm:text-3xl md:text-4xl mb-3 sm:mb-4 transform group-hover:scale-125 transition-transform duration-300">
                 {benefit.icon}
               </div>
-              <h3 className="text-base sm:text-lg md:text-xl 2xl:text-2xl font-bold text-gray-900 mb-2">
+              <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2">
                 {benefit.title}
               </h3>
-              <p className="text-gray-600 text-xs sm:text-sm md:text-base 2xl:text-lg leading-relaxed">
+              <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed">
                 {benefit.description}
               </p>
             </div>
