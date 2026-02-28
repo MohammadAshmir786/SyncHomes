@@ -59,6 +59,15 @@ Frontend runs at `http://localhost:5173`.
 - Admin login: `http://localhost:5173/admin/login`
 - API health check: `http://localhost:5000/api/health`
 
+## Admin Test Login (UI)
+
+Use these credentials for admin UI testing:
+
+- Email: `admin@synchomes.com`
+- Password: `admin@123`
+
+Note: the admin record must exist in your MongoDB database.
+
 ## Scripts
 
 ### Client (`client/package.json`)

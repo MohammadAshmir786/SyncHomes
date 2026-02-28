@@ -48,6 +48,13 @@ Configured in `vite.config.ts`:
 - `/admin/login` — Admin login
 - `/admin/dashboard` — Admin dashboard (protected)
 
+## Admin Test Login (UI)
+
+- Email: `admin@synchomes.com`
+- Password: `admin@123`
+
+Note: this login works only when the matching admin user exists in the backend database.
+
 ## Build Output
 
 Production files are generated in `dist/`.
